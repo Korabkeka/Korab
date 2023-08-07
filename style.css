@@ -1,0 +1,268 @@
+:root{
+  --rosy: rgb(195, 166, 158);
+  --redwood: #9f6350;
+  --cool: rgb(150, 152, 173);
+  --slate: #727691;
+  --french: #94969d;
+  color: #191919dd;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+@font-face {
+  font-family: "handjet";
+  src: url("./Fonts/Handjet-SemiBold.ttf");
+}
+body{
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: handjet;
+}
+
+canvas{
+  position: absolute;
+}
+.transition {
+  transition: all 0.2s linear;
+}
+
+.profile {
+  z-index: 10;
+  position:relative;
+  perspective: 1000px; 
+  perspective-origin: center center;
+  position:relative;
+  min-width: 300px;
+  width: 30%;
+  display: flex;
+}
+
+.table {
+  width:100%;
+  display: flex;
+  padding-right: 12px;
+  justify-content: right;
+  background: rgba(184, 237, 255, 0.05);
+  border:solid 3px rgba(127, 222, 254, 0.05);
+  border-radius:15px;
+  transform:rotateX(30deg) rotateZ(-15deg) rotateY(15deg);
+  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(1) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(0, 0%, 100%, 0)'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'  stroke-width='1' stroke='hsla(178, 100%, 34%, 0.11)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>")
+}
+.profile::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(60deg, rgba(155,232,238,0) 0%, rgba(155,232,238,0) 5%, rgba(155,232,238,0.02) 6%, rgba(155,232,238,0) 9%, rgba(155,232,238,0) 23%, rgba(155,232,238,0.01) 25%, rgba(155,232,238,0) 27%, rgba(155,232,238,0) 53%, rgba(155,232,238,0.025) 54%, rgba(155,232,238,0) 55%, rgba(155,232,238,0) 74%, rgba(155,232,238,0.012) 75%, rgba(155,232,238,0) 76%, rgba(155,232,238,0) 89%, rgba(155,232,238,0.014) 90%, rgba(155,232,238,0) 92%, rgba(155,232,238,0) 100%);
+  border-radius: 15px;
+  z-index: -1;
+}
+.menu {
+  position:absolute;
+  top:10%;
+  left:-10%;
+  transform:rotateX(30deg);
+}
+
+.menu>.item {
+  position:relative; 
+  z-index: 150;
+  color:#9effff;
+  background: rgba(184, 237, 255, 0.1);
+  border:solid 1px #9effff;
+  border-radius:5px; 
+  padding:6%;
+  margin:6%;
+  transform:rotateX(30deg);
+  cursor:pointer;
+}
+
+.menu>.item:hover { 
+  color:#010818;
+  background:#9effff;
+}
+
+.card {
+  padding:2%;
+  background: rgba(184, 237, 255, 0.1);
+  border:solid 1px #9effff; 
+  border-radius:10px;
+  transform:rotateX(30deg);
+}
+
+.card>p {
+  margin-top:10%;
+  color: #9effff;
+  padding: 2px;
+  margin: 0;
+}
+
+.card>img {
+  border-radius:10px;
+}
+
+/* ----------------- hologram --------------- */
+
+.content{
+  display: none;
+  z-index: 50;
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  align-self: center;margin: 0 auto;
+  left: calc(50% - 25%);
+  background-color: rgba(158, 255, 255, 0.2);
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  animation: expand 1s ease forwards;
+  font-size: 18px;
+  padding: 20px;
+}
+.content p{
+  width: 100%;
+  line-break: anywhere;
+}
+span{
+  padding: 5px;
+  color: #9effff;
+}
+.enlighten{
+  color: #9effff;
+  animation: enlight-last-character 0.6s infinite;
+}
+@keyframes enlight-last-character {
+  0%{
+    background-color: green;
+    color: #9effff;
+  }
+  50%{
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+  }
+  100%{
+    background-color: green;
+    color: #9effff;
+  }
+}
+.content::after{
+  content: "";
+  position: absolute;
+  width: 10%;
+  height: 10%;
+  min-width: 10px;
+  min-height: 10px;
+  border: 2px solid green;
+  left: -10px;
+  top: -10px;
+  z-index: -1;
+  border-bottom: none;
+  border-right: none;
+  animation: expand-left 1s ease backwards;
+}
+.content::before{
+  content: "";
+  position: absolute;
+  width: 10%;
+  height: 10%;
+  min-width: 10px;
+  min-height: 10px;
+  border: 2px solid green;
+  right: -10px;
+  bottom: -10px;
+  z-index: -1;
+  border-top: none;
+  border-left: none;
+  animation: expand-right 1s ease backwards;
+}
+@keyframes expand-left {
+  0%{
+    left:calc(50%-5px);
+    top: calc(50%-5px);
+  }
+  50%{
+    top: -10px;
+    left: calc(50%-5px);
+  }
+  100%{
+    left: -10px;
+  }
+}
+@keyframes expand-right {
+  0%{
+    right:calc(50%-5px);
+    bottom: calc(50%-5px);
+  }
+  50%{
+    bottom: -10px;
+    right: calc(50%-5px);
+  }
+  100%{
+    right: -10px;
+  }
+}
+@keyframes expand {
+  0%{
+    height: 0;
+    width: 0;
+    left: 50%;
+  }
+  50%{
+    height: 50%;
+    left: 50%;
+    width: 0;
+  }
+  100%{
+    height: 50%;
+    width: 50%;
+    left: calc(50%-25%);
+  }
+}
+@keyframes reverse-expand {
+  0%{
+    height: 50%;
+    width: 50%;
+    left: calc(50%-25%);
+  }
+  50%{
+    height: 50%;
+    left: 50%;
+    width: 0;
+  }
+  100%{
+    height: 0;
+    width: 0;
+    left: 50%;
+  }
+}
+
+
+.hologram{
+  width: 50%;
+  height: 100%;
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+}
+.floor{
+  min-width: 200px;
+  min-height: 200px;
+  transform-style: preserve-3d;
+  transform: rotateX(80deg);
+  border-radius: 50%;
+  border:solid 1px rgba(127, 222, 254, 0.7); 
+  box-shadow: 0 0 2px 1px rgb(127, 222, 254),
+              0 0 5px 4px rgba(127, 222, 254, 0.7),
+              0 0 5px 4px rgba(127, 222, 254, 0.7)inset,
+              0 0 30px 10px rgba(127, 222, 254, 0.7)inset;
+  background: rgba(184, 237, 255, 0.1);
+  align-self: flex-end;
+}
