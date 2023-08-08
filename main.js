@@ -100,6 +100,7 @@ window.onresize = () => profile.classList.contains("open")? sizeToScreen():null;
 
 function sizeToScreen()
 {
+
     profile.classList.add("open");
     gsap.to(profile, {width:0.8*innerWidth,height:0.8*innerHeight, duration:1})
     gsap.to(profile,{translateX:0, translateY: 0, duration:1})
@@ -109,6 +110,8 @@ function sizeToScreen()
     gsap.to(".menu", {left:12, top:0}) 
     setTimeout(() => {
         const content = document.querySelector('.content');
+        const wrapper = document.querySelector('.wrapper');
+        wrapper.style.display = "flex";
         content.style.display = "flex";
     }, 1000);
     setTimeout(() => {
@@ -123,5 +126,6 @@ function sizeToScreen()
             span.classList.add("enlighten");
         }
       }
-    }, 2000);  
+    }, 2000);
+
 }
