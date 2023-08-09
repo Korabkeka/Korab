@@ -92,8 +92,10 @@ app.ticker.add((delta) =>
 });
 
 //frontend
-
+const root = document.querySelector(':root');
 const profile = document.querySelector('.profile');
+const content = document.querySelector('.content');
+const wrapper = document.querySelector('.wrapper');
 
 profile.addEventListener('click', sizeToScreen);
 window.onresize = () => profile.classList.contains("open")? sizeToScreen():null;
@@ -108,12 +110,26 @@ function sizeToScreen()
     gsap.to('.card', {padding:5,top:0, width:90,height:165, duration:1});
     gsap.to(".card img", {width:"100%", objectFit:"cover", duration:1})
     gsap.to(".menu", {left:12, top:0}) 
-    setTimeout(() => {
-        const content = document.querySelector('.content');
-        const wrapper = document.querySelector('.wrapper');
-        wrapper.style.display = "flex";
-        content.style.display = "flex";
-    }, 1000);
+    if(wrapper.style.display !== "flex"){
+        if(innerWidth <= 600)root.style.setProperty('--wrapper-width', '90%')
+        else root.style.setProperty('--wrapper-width', '50%')
+        setTimeout(() => {
+            console.log("hello")
+            wrapper.style.display = "flex";
+            content.style.display = "flex";
+        }, 1000);
+        setTimeout(() => {
+            wrapper.style.animationName = "none";
+        }, 2000);
+    }else{
+        console.log("bbbbbb");
+        if(innerWidth <= 600){
+            gsap.to(wrapper, {width:"90%", left:"5%", duration:1})
+        }else{
+            gsap.to(wrapper, {width:"50%", left:"25%", duration:1})
+        }
+    }
+    
     setTimeout(() => {
       const description = document.querySelector('.description');
       const text = description.textContent;
