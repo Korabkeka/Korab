@@ -114,7 +114,6 @@ function sizeToScreen()
         if(innerWidth <= 600)root.style.setProperty('--wrapper-width', '90%')
         else root.style.setProperty('--wrapper-width', '50%')
         setTimeout(() => {
-            console.log("hello")
             wrapper.style.display = "flex";
             content.style.display = "flex";
         }, 1000);
@@ -122,7 +121,6 @@ function sizeToScreen()
             wrapper.style.animationName = "none";
         }, 2000);
     }else{
-        console.log("bbbbbb");
         if(innerWidth <= 600){
             gsap.to(wrapper, {width:"90%", left:"5%", duration:1})
         }else{
@@ -131,17 +129,20 @@ function sizeToScreen()
     }
     
     setTimeout(() => {
-      const description = document.querySelector('.description');
-      const text = description.textContent;
-      description.innerHTML = "";
-      for(let i = 0; i < text.length; i++){
-        let span = document.createElement('span');
-        span.textContent = text[i]
-        description.appendChild(span);
-        if(i == text.length-1){
-            span.classList.add("enlighten");
+      const description = document.querySelectorAll('.description');
+      description.forEach(el =>{
+        const text = el.textContent;
+        el.innerHTML = "";
+        for(let i = 0; i < text.length; i++){
+            let span = document.createElement('span');
+            span.textContent = text[i]
+            el.appendChild(span);
+            if(i == text.length-1){
+                span.classList.add("enlighten");
+            }
         }
-      }
+      })
+      
     }, 2000);
 
 }
