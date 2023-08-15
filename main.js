@@ -52,10 +52,12 @@ function randomizeStar(star, initial)
 }
 
 // Change flight speed every 5 seconds
-setInterval(() =>
-{
-    warpSpeed = warpSpeed > 0 ? 0 : 1;
-}, 5000);
+function enterWarpMode(){
+    warpSpeed = 1;
+    setTimeout(() => {
+        warpSpeed = 0;
+    }, 1500);
+}
 
 // Listen for animate update
 app.ticker.add((delta) =>
@@ -96,38 +98,49 @@ const root = document.querySelector(':root');
 const profile = document.querySelector('.profile');
 const content = document.querySelector('.content');
 const wrapper = document.querySelector('.wrapper');
+let current = null;
+let contentWasShownOnce = false;
 
-profile.addEventListener('click', sizeToScreen);
-window.onresize = () => profile.classList.contains("open")? sizeToScreen():null;
-
-function sizeToScreen()
-{
-
-    profile.classList.add("open");
-    gsap.to(profile, {width:0.8*innerWidth,height:0.8*innerHeight, duration:1})
-    gsap.to(profile,{translateX:0, translateY: 0, duration:1})
-    gsap.to('.table', { rotationX:0, rotationY:0, rotationZ:0,paddingRight:12, width:"100%", height:"100%", duration:1})
-    gsap.to('.card', {padding:5,top:0, width:90,height:165, duration:1});
-    gsap.to(".card img", {width:"100%", objectFit:"cover", duration:1})
-    gsap.to(".menu", {left:12, top:0}) 
-    if(wrapper.style.display !== "flex"){
-        if(innerWidth <= 600)root.style.setProperty('--wrapper-width', '90%')
-        else root.style.setProperty('--wrapper-width', '50%')
-        setTimeout(() => {
-            wrapper.style.display = "flex";
-            content.style.display = "flex";
-        }, 1000);
-        setTimeout(() => {
-            wrapper.style.animationName = "none";
-        }, 2000);
-    }else{
-        if(innerWidth <= 600){
-            gsap.to(wrapper, {width:"90%", left:"5%", duration:1})
-        }else{
-            gsap.to(wrapper, {width:"50%", left:"25%", duration:1})
+document.querySelector('.menu').addEventListener('click', (e)=>{
+    const target = e.target;
+    if(target.classList.contains('item')){
+        switch (target.textContent) {
+            case "about me":
+                current = document.querySelector(".about");
+                /* document.querySelector('.active')?.classList.remove('active');
+                current.classList.add('active') */
+                break;
+            case "skills":
+                current = document.querySelector(".skills");
+                /* document.querySelector('.active')?.classList.remove('active');
+                current.classList.add('active') */
+                break;
+            case "contact":
+                current = document.querySelector(".contact");
+                /* document.querySelector('.active')?.classList.remove('active');
+                current.classList.add('active') */
+                break;
+            default:
+                break;
         }
     }
-    
+})
+
+profile.addEventListener('click', async(e)=>{
+    await openCard();
+    await resizeWrapper();
+    await displayContent();
+});
+window.onresize = async() => profile.classList.contains("open")? sizeToScreen():null;
+
+async function sizeToScreen()
+{
+    gsap.to(profile, {width:0.8*innerWidth,height:0.8*innerHeight, duration:1})
+    await resizeWrapper();
+}
+
+async function writeEffect()
+{
     setTimeout(() => {
       const description = document.querySelectorAll('.description');
       description.forEach(el =>{
@@ -144,5 +157,71 @@ function sizeToScreen()
       })
       
     }, 2000);
+}
 
+async function openCard(){
+    if(!profile.classList.contains("open")){
+        enterWarpMode();
+        profile.classList.add("open");
+        gsap.to(profile, {width:0.8*innerWidth,height:0.8*innerHeight, duration:1})
+        gsap.to(profile,{translateX:0, translateY: 0, duration:1})
+        gsap.to('.table', { rotationX:0, rotationY:0, rotationZ:0,paddingRight:12, width:"100%", height:"100%", duration:1})
+        gsap.to('.card', {padding:5,top:0, width:90,height:165, duration:1});
+        gsap.to(".card img", {width:"100%", objectFit:"cover", duration:1})
+        gsap.to(".menu", {left:12, top:0})
+        setTimeout(() => {
+            profile.style.overflow = "hidden";
+        }, 1000);
+    }
+}
+
+async function resizeWrapper(){
+    if(wrapper.style.display !== "flex"){
+        if(innerWidth <= 600)root.style.setProperty('--wrapper-width', '90%')
+        else root.style.setProperty('--wrapper-width', '50%')
+    }else{
+        if(innerWidth <= 600){
+            gsap.to(wrapper, {width:"90%", left:"5%", duration:1})
+        }else{
+            gsap.to(wrapper, {width:"50%", left:"25%", duration:1})
+        }
+    }
+}
+
+async function displayContent(){
+    if(current === null){
+        current = document.querySelector('.about');
+        current.classList.add('active');
+    }else{
+        
+        let temp = document.querySelector('.active');
+        if(temp && temp !== current){
+            enterWarpMode()
+            current.style.animationName = "slide-in";
+            current.style.animationDuration = "1s";
+            temp.classList.remove('active');
+            temp.style.display = "flex";
+            temp.style.animationName = "slide-out";
+            root.style.setProperty('--before-animation', "bounce-down")
+            root.style.setProperty('--after-animation', "bounce-up")
+            current.classList.add('active')
+            setTimeout(() => {
+            root.style.setProperty('--before-animation', "none")
+            root.style.setProperty('--after-animation', "none")
+            }, 1000);
+        }else{
+            current.classList.add('active')
+        }
+    }
+    
+    if(wrapper.style.display !== "flex"){
+        setTimeout(() => {
+            wrapper.style.display = "flex";
+        }, 1000);
+        setTimeout(() => {
+            wrapper.style.animationName = "none";
+        }, 2000);
+    }
+    contentWasShownOnce = true;
+    
 }

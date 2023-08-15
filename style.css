@@ -5,6 +5,8 @@
   --slate: #727691;
   --french: #94969d;
   --wrapper-width: 50%;
+  --before-animation : expand-right;
+  --after-animation : expand-left;
   color: #191919dd;
 }
 
@@ -13,6 +15,7 @@
   padding: 0;
   box-sizing: border-box;
   position: relative;
+  color: #9effff;
 }
 @font-face {
   font-family: "handjet";
@@ -121,13 +124,39 @@ canvas{
   width: 100%;
   height: 100%;
   align-self: center;
-  margin: 0 auto;
   background-color: rgba(158, 255, 255, 0.2);
-  animation: expand 1s ease forwards;
   font-size: 18px;
   padding: 20px;
   overflow-y: scroll;
   overflow-x: hidden;
+  animation: slide-out 1s ease forwards;
+  font-size: 24px;
+}
+.contact{
+  align-items: center;
+  justify-content: center;
+}
+.contact p{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.skills ul{
+  list-style-type: none;
+  padding: 10px;
+}
+.green{
+  background-color: rgba(0,140,0,0.2);
+}
+.red{
+  background-color: rgba(154, 38, 77,0.3);
+}
+.active{
+  display: flex;
+  animation-name: expand;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
 }
 .content::-webkit-scrollbar{
   width: 10px;
@@ -195,7 +224,10 @@ span{
   z-index: -1;
   border-bottom: none;
   border-right: none;
-  animation: expand-left 1s ease forwards;
+  animation-name: var(--after-animation);
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
 }
 .wrapper::before{
   content: "";
@@ -210,7 +242,10 @@ span{
   z-index: -1;
   border-top: none;
   border-left: none;
-  animation: expand-right 1s ease forwards;
+  animation-name: var(--before-animation);
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
 }
 @keyframes expand-left {
   0%{
@@ -289,26 +324,37 @@ span{
     left: 50%;
   }
 }
-
-
-.hologram{
-  width: 50%;
-  height: 100%;
-  perspective: 1000px;
-  display: flex;
-  justify-content: center;
+@keyframes slide-in {
+  from{
+    margin-left: -2000px;
+  }to{
+  }
 }
-.floor{
-  min-width: 200px;
-  min-height: 200px;
-  transform-style: preserve-3d;
-  transform: rotateX(80deg);
-  border-radius: 50%;
-  border:solid 1px rgba(127, 222, 254, 0.7); 
-  box-shadow: 0 0 2px 1px rgb(127, 222, 254),
-              0 0 5px 4px rgba(127, 222, 254, 0.7),
-              0 0 5px 4px rgba(127, 222, 254, 0.7)inset,
-              0 0 30px 10px rgba(127, 222, 254, 0.7)inset;
-  background: rgba(184, 237, 255, 0.1);
-  align-self: flex-end;
+@keyframes slide-out {
+  from{
+    
+  }to{
+    margin-left: 2000px;
+  }
 }
+@keyframes bounce-down {
+  0%{
+
+  }50%{
+    bottom: -50px;
+    right: -20px;
+  }100%{
+
+  }
+}
+@keyframes bounce-up {
+  0%{
+
+  }50%{
+    top: -50px;
+    left: -20px;
+  }100%{
+
+  }
+}
+
